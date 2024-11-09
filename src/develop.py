@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
 
 import requests
-import json
-
 
 class AbstractGet(ABC):
 
@@ -30,13 +28,14 @@ class GetVacancies(AbstractGet):
         self.vacancies = json_data.json()["items"]
         return self.vacancies
 
-class OperationWithVacancies(GetVacancies):
-    def __init__(self,keyword, name, employment, experience, vacancies_url):
+class OperationsWithVacancies(GetVacancies):
+    def __init__(self,keyword, name, employment, experience, pay_from, pay_to):
         super().__init__(keyword)
         self.name = [vacancies[name] for vacancies in self.vacancies] #'Junior Developer'
         self.employment = [vacancies[employment] for vacancies in self.vacancies] #'Полная занятость'
         self.experience = [vacancies[experience] for vacancies in self.vacancies] #'От 1 года до 3 лет'
-        self.vacancies_url = [vacancies[vacancies_url] for vacancies in self.vacancies] #'https://api.hh.ru/vacancies?employer_id=5031522'
+        self.pay_from = [vacancies['salary'][pay_from] for vacancies in self.vacancies]
+        self.pay_to = [vacancies['salary'][pay_to] for vacancies in self.vacancies]
 
-data = OperationWithVacancies('python', 'Junior Developer', 'Полная занятость', 'От 1 года до 3 лет', 'https://api.hh.ru/vacancies?employer_id=5031522')
+data = OperationsWithVacancies('python', 'Junior Developer', 'Полная занятость', 'От 1 года до 3 лет', 50_000, 100_000)
 print(data.loading())
