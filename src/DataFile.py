@@ -4,19 +4,26 @@ from abc import abstractmethod, ABC
 from src.OperationsWithVacancies import OperationsWithVacancies
 
 
-class AbstractFile(ABC):
-    """Абстрактный класс, который обязывает реализовать методы для добавления вакансий в файл,
-    получения данных из файла по указанным критериям и удаления информации о вакансиях"""
+class AbstractSave(ABC):
+    """Абстрактный класс, который обязывает реализовать метод для добавления вакансий в файл"""
 
     @abstractmethod
     def save_data(self):
         """Метод для добавления вакансий в файл, который должен быть в дочернем классе"""
         pass
 
+
+class AbstractGet(ABC):
+    """Абстрактный класс, который обязывает реализовать метод для получения данных из файла по указанным критериям"""
+
     @abstractmethod
     def get_data(self):
         """Метод для получения данных из файла по указанным критериям, который должен быть в дочернем классе"""
         pass
+
+
+class AbstractDelete(ABC):
+    """Абстрактный класс, который обязывает реализовать метод для удаления информации о вакансиях"""
 
     @abstractmethod
     def delete_data(self):
@@ -24,12 +31,14 @@ class AbstractFile(ABC):
         pass
 
 
-class DataFile(OperationsWithVacancies, AbstractFile):
-    """Класс для работы с информацией о вакансиях в JSON-файл"""
+class SaveData(OperationsWithVacancies, AbstractSave):
+    """Класс для работы с добавления информации о вакансиях в JSON-файл"""
 
     try:
 
-        def __init__(self, keyword, keyword_2, employment, currency, pay_from, pay_to, file="../data/hh_vacancies.json"):
+        def __init__(
+            self, keyword, keyword_2, employment, currency, pay_from, pay_to, file="../data/hh_vacancies.json"
+        ):  # noqa: E501
             super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
             self._file = file
 
@@ -48,10 +57,29 @@ class DataFile(OperationsWithVacancies, AbstractFile):
                 json.dump(data_from_json_file, file, ensure_ascii=False)
             return self._comparison_pay()
 
+    except Exception as e:
+        print(e)
+        print("Ошибка в классе DataFile")
+
+
+class GetData(OperationsWithVacancies, AbstractGet):
+    """Класс для получения информации о вакансиях в JSON-файл"""
+
+    try:
+
+        def __init__(
+            self, keyword, keyword_2, employment, currency, pay_from, pay_to, file="../data/hh_vacancies.json"
+        ):  # noqa: E501
+            super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
+            self._file = file
+
         def get_data(self):
             """Метод для получения данных из файла по указанным критериям"""
             with open(self._file, "r", encoding="utf-8") as file:
-                data_from_json_file = json.load(file)
+                try:
+                    data_from_json_file = json.load(file)
+                except json.decoder.JSONDecodeError:
+                    return "Файл пустой"
                 for vacancy in data_from_json_file:
                     if (
                         self.keyword_2 in vacancy.get("name")
@@ -64,6 +92,22 @@ class DataFile(OperationsWithVacancies, AbstractFile):
                     else:
                         continue
 
+    except Exception as e:
+        print(e)
+        print("Ошибка в классе DataFile")
+
+
+class DeleteData(OperationsWithVacancies, AbstractDelete):
+    """Класс для очистки JSON-файла"""
+
+    try:
+
+        def __init__(
+            self, keyword, keyword_2, employment, currency, pay_from, pay_to, file="../data/hh_vacancies.json"
+        ):  # noqa: E501
+            super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
+            self._file = file
+
         def delete_data(self):
             """Метод для удаления информации о вакансиях"""
             with open(self._file, "w"):
@@ -75,5 +119,5 @@ class DataFile(OperationsWithVacancies, AbstractFile):
 
 
 if __name__ == "__main__":
-    data_to_file = DataFile("java", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-    print(data_to_file.save_data())
+    data_to_file = DeleteData("java", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
+    print(data_to_file.delete_data())
