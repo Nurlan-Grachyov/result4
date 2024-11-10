@@ -1,16 +1,7 @@
-import requests
-
-from src.DataFile import DataFile
+from src.DataFile import SaveData
 from src.GetVacancies import GetVacancies
 
-
-def user_interaction():
-    """Функция, взаимодействующая с пользователем через консоль. Возможности этой функции следующие:
-    возможность ввести поисковый запрос для запроса вакансий из hh.ru;
-    возможность получить топ N вакансий по зарплате (N запрашивать у пользователя);
-    возможность получить вакансии с ключевым словом в описании."""
-
-    keyword, name, employment, currency, pay_from, pay_to = input(
+key_word, name, employment, currency, pay_from, pay_to = input(
         "Введите информацию через запятую: \n"
         "ЯП, которым владеете; \n"
         "ваш уровень пользования этим языком;\n"
@@ -19,12 +10,22 @@ def user_interaction():
         "зарплатА ОТ; \n"
         "зарплата ДО: \n"
     ).split(", ")
-    data_to_file = DataFile(
-        keyword, name, employment, currency, int(pay_from), int(pay_to), "../data/hh_vacancies.json"
+
+def search(keyword, keyword_2, occupation, curr, salary_from, salary_to):
+    """Функция, взаимодействующая с пользователем через консоль. Возможности этой функции следующие:
+    возможность ввести поисковый запрос для запроса вакансий из hh.ru;
+    возможность получить топ N вакансий по зарплате (N запрашивать у пользователя);
+    возможность получить вакансии с ключевым словом в описании."""
+
+    data_to_file = SaveData(
+        keyword, keyword_2, occupation, curr, int(salary_from), int(salary_to), "../data/hh_vacancies.json"
     )
     operation_data = data_to_file.save_data()
+    return operation_data
 
-    vacancies = GetVacancies(keyword).loading()
+
+def top_vacations(keyword):
+    vacancies = GetVacancies(keyword)._loading()
     list_vacancies = []
     for vacancy in vacancies:
         if (
@@ -41,13 +42,15 @@ def user_interaction():
         vacancy["salary"]["avg"] = avg_pay
 
     top_transactions = sorted(list_vacancies, key=lambda x: x["salary"]["avg"])[:5]
+    return top_transactions
 
-    params = {"text": keyword, "per_page": 100}
-    url = "https://api.hh.ru/vacancies"
-    json_data = requests.get(url, params=params)
-    vacancies = json_data.json().get("items", [])
-    return operation_data, top_transactions, vacancies
+
+def get_vacations_with_keyword(keyword):
+    vacancies = GetVacancies(keyword)._loading()
+    return vacancies
 
 
 if __name__ == "__main__":
-    print(user_interaction())
+    print(search(key_word, name, employment, currency, pay_from, pay_to))
+    # print(top_vacations(key_word))
+    # print(get_vacations_with_keyword(key_word))

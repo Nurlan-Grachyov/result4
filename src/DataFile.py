@@ -40,11 +40,11 @@ class SaveData(OperationsWithVacancies, AbstractSave):
             self, keyword, keyword_2, employment, currency, pay_from, pay_to, file="../data/hh_vacancies.json"
         ):  # noqa: E501
             super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
-            self._file = file
+            self.__file = file
 
         def save_data(self):
             """Метод для добавления вакансий в файл"""
-            with open(self._file, "r", encoding="utf-8") as file:
+            with open(self.__file, "r", encoding="utf-8") as file:
                 try:
                     data_from_json_file = json.load(file)
                 except json.decoder.JSONDecodeError:
@@ -53,7 +53,7 @@ class SaveData(OperationsWithVacancies, AbstractSave):
                     if vacancy not in data_from_json_file:
                         data_from_json_file.append(vacancy)
 
-            with open(self._file, "w", encoding="utf-8") as file:
+            with open(self.__file, "w", encoding="utf-8") as file:
                 json.dump(data_from_json_file, file, ensure_ascii=False)
             return self._comparison_pay()
 
@@ -71,11 +71,11 @@ class GetData(OperationsWithVacancies, AbstractGet):
             self, keyword, keyword_2, employment, currency, pay_from, pay_to, file="../data/hh_vacancies.json"
         ):  # noqa: E501
             super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
-            self._file = file
+            self.__file = file
 
         def get_data(self):
             """Метод для получения данных из файла по указанным критериям"""
-            with open(self._file, "r", encoding="utf-8") as file:
+            with open(self.__file, "r", encoding="utf-8") as file:
                 try:
                     data_from_json_file = json.load(file)
                 except json.decoder.JSONDecodeError:
@@ -106,12 +106,12 @@ class DeleteData(OperationsWithVacancies, AbstractDelete):
             self, keyword, keyword_2, employment, currency, pay_from, pay_to, file="../data/hh_vacancies.json"
         ):  # noqa: E501
             super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
-            self._file = file
+            self.__file = file
 
         def delete_data(self):
             """Метод для удаления информации о вакансиях"""
-            with open(self._file, "w"):
-                return f"Файл {self._file} очищен"
+            with open(self.__file, "w"):
+                return f"Файл {self.__file} очищен"
 
     except Exception as e:
         print(e)
@@ -119,5 +119,7 @@ class DeleteData(OperationsWithVacancies, AbstractDelete):
 
 
 if __name__ == "__main__":
-    data_to_file = DeleteData("java", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
+    data_to_file = DeleteData(
+        "java", "Junior", "Полная занятость", "RUR", 50_000, 100_000, "../data/hh_vacancies.json"
+    )
     print(data_to_file.delete_data())
