@@ -93,7 +93,6 @@ class OperationsWithVacancies(GetVacancies):
         def __ne__(self, other):
             return self._get_max_avg_salary() != other._get_max_avg_salary()
 
-
     except Exception as e:
         print(e)
         print("Ошибка в классе OperationsWithVacancies")
