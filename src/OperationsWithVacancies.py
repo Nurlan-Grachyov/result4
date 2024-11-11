@@ -1,3 +1,5 @@
+from typing import Any, List
+
 from src.GetVacancies import GetVacancies
 
 
@@ -7,7 +9,7 @@ class OperationsWithVacancies(GetVacancies):
     try:
         __slots__ = ("keyword", "keyword_2", "employment", "currency", "pay_from", "pay_to")
 
-        def __init__(self, keyword, keyword_2, employment, currency, pay_from, pay_to):
+        def __init__(self, keyword: str, keyword_2: str, employment: str, currency: str, pay_from: int, pay_to: int):
             """Класс-конструктор, который получает атрибуты"""
             super().__init__(keyword)
             self._loading()
@@ -20,9 +22,9 @@ class OperationsWithVacancies(GetVacancies):
             if pay_to < pay_from:
                 raise ValueError("Зарплата ДО не должна быть меньше зарплаты ОТ")
             self.pay_to = pay_to
-            self.sorted_vacancies = []
+            self.sorted_vacancies: List = []
 
-        def _filtered_vacancies(self):
+        def _filtered_vacancies(self) -> list:
             """Метод, фильтрует вакансии по фильтрам"""
             for vacancy in self._vacancies:
                 if (
@@ -44,7 +46,7 @@ class OperationsWithVacancies(GetVacancies):
                     continue
             return self.sorted_vacancies
 
-        def _avg(self):
+        def _avg(self) -> list:
             """Метод, высчитывающий среднюю зарплату для каждой вакансии"""
             self._filtered_vacancies()
             for vacancy in self.sorted_vacancies:
@@ -52,49 +54,49 @@ class OperationsWithVacancies(GetVacancies):
                 vacancy["salary"]["avg"] = avg_pay
             return self.sorted_vacancies
 
-        def _comparison_pay(self):
+        def _comparison_pay(self) -> None | list:
             """Метод, сортирующий вакансии со средними зарплатами в порядке возрастания"""
             self._avg()
             if not self.sorted_vacancies:
                 return None
             return sorted(self.sorted_vacancies, key=lambda x: x["salary"]["avg"], reverse=True)
 
-        def _highest_pay(self):
+        def _highest_pay(self) -> Any:
             """Метод, возвращающий вакансию с максимальной средней зарплатой"""
             self._avg()
             if not self.sorted_vacancies:
                 return None
             return max(self.sorted_vacancies, key=lambda x: x["salary"]["avg"])
 
-        def _lowest_pay(self):
+        def _lowest_pay(self) -> Any:
             """Метод, возвращающий вакансию с минимальной средней зарплатой"""
             self._avg()
             if not self.sorted_vacancies:
                 return None
             return min(self.sorted_vacancies, key=lambda x: x["salary"]["avg"])
 
-        def _get_max_avg_salary(self):
+        def _get_max_avg_salary(self) -> float:
             """Метод возвращает максимальную среднюю зарплату в списке вакансий"""
             self._avg()
             highest_vacancy = self._highest_pay()
             return highest_vacancy["salary"]["avg"] if highest_vacancy else 0
 
-        def __eq__(self, other):
+        def __eq__(self, other: Any) -> Any:
             return self._get_max_avg_salary() == other._get_max_avg_salary()
 
-        def __lt__(self, other):
+        def __lt__(self, other: Any) -> Any:
             return self._get_max_avg_salary() < other._get_max_avg_salary()
 
-        def __le__(self, other):
+        def __le__(self, other: Any) -> Any:
             return self._get_max_avg_salary() <= other._get_max_avg_salary()
 
-        def __gt__(self, other):
+        def __gt__(self, other: Any) -> Any:
             return self._get_max_avg_salary() > other._get_max_avg_salary()
 
-        def __ge__(self, other):
+        def __ge__(self, other: Any) -> Any:
             return self._get_max_avg_salary() >= other._get_max_avg_salary()
 
-        def __ne__(self, other):
+        def __ne__(self, other: Any) -> Any:
             return self._get_max_avg_salary() != other._get_max_avg_salary()
 
     except Exception as e:

@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from typing import Any
+
 import requests
 
 
@@ -6,7 +8,7 @@ class AbstractGet(ABC):
     """Абстрактный класс для работы с API сервиса с вакансиями"""
 
     @abstractmethod
-    def _loading(self):
+    def _loading(self) -> Any:
         """Метод, который должен быть в дочернем классе"""
         pass
 
@@ -14,13 +16,13 @@ class AbstractGet(ABC):
 class GetVacancies(AbstractGet):
     """Класс, наследующийся от абстрактного класса, для работы с платформой hh.ru"""
 
-    def __init__(self, keyword):
+    def __init__(self, keyword: str):
         """Класс-конструктор, который получает ключевое слово для поиска(keyword)"""
         self.__url = "https://api.hh.ru/vacancies"
         self.__params = {"text": keyword, "per_page": 100}
-        self._vacancies = []
+        self._vacancies: Any = []
 
-    def _loading(self):
+    def _loading(self) -> Any:
         """Метод, подключающийся к API и получающий вакансии"""
         try:
             json_data = requests.get(self.__url, params=self.__params)
@@ -30,6 +32,7 @@ class GetVacancies(AbstractGet):
         except Exception as e:
             print(e)
             print("Ошибка в классе GetVacancies")
+            return []
 
 
 if __name__ == "__main__":
