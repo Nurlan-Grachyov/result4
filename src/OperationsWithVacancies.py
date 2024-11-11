@@ -14,7 +14,11 @@ class OperationsWithVacancies(GetVacancies):
             self.keyword_2 = keyword_2
             self.employment = employment
             self.currency = currency
+            if pay_from < 0:
+                raise ValueError("Зарплата ОТ не должна быть отрицательной")
             self.pay_from = pay_from
+            if pay_to < pay_from:
+                raise ValueError("Зарплата ДО не должна быть меньше зарплаты ОТ")
             self.pay_to = pay_to
             self.sorted_vacancies = []
 
