@@ -207,3 +207,7 @@ def return_test_lowest_pay():
 @pytest.fixture
 def return_test_get_max_avg_salary():
     return 75000.0
+
+@pytest.fixture
+def return_search():
+    return ['Имя вакансии - Junior Java разработчик,месторасположение - Москва,средняя зарплата - 80000.0,валюта - RUR,url - https://hh.ru/vacancy/109788485', 'Имя вакансии - Junior Java Developer,месторасположение - Москва,средняя зарплата - 60000.0,валюта - RUR,url - https://hh.ru/vacancy/110429201']

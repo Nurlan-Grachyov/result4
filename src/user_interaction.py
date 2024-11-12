@@ -89,7 +89,8 @@ def get_vacations_with_keyword(keyword: str) -> list:
 
 if __name__ == "__main__":
     vacations = search(key_word, name, employment, currency, pay_from, pay_to)
-    for vacancy in vacations:
-        print(vacancy)
-    print(top_vacations(key_word))
-    print(get_vacations_with_keyword(key_word))
+    print(vacations)
+    # for vacancy in vacations:
+    #     print(vacancy)
+    # print(top_vacations(key_word))
+    # print(get_vacations_with_keyword(key_word))
