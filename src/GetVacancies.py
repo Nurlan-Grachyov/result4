@@ -20,6 +20,7 @@ class GetVacancies(AbstractGet):
         """Класс-конструктор, который получает ключевое слово для поиска(keyword)"""
         self.__url = "https://api.hh.ru/vacancies"
         self.__params = {"text": keyword, "per_page": 100}
+        self._keyword = keyword
         self._vacancies: Any = []
 
     def _loading(self) -> Any:

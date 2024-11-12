@@ -1,7 +1,7 @@
 from typing import Any
 
 from src.GetVacancies import GetVacancies
-from src.OperationsWithVacancies import OperationsWithVacancies
+from src.OperationsWithVacancies import SalaryOfVacancies
 
 key_word, name, employment, currency, pay_from, pay_to = input(
     "Введите информацию через запятую: \n"
@@ -17,7 +17,7 @@ key_word, name, employment, currency, pay_from, pay_to = input(
 def search(keyword: str, keyword_2: str, occupation: str, curr: str, salary_from: str, salary_to: str) -> Any:
     """Функция, с помощью которой пользователь может ввести поисковый запрос для запроса вакансий из hh.ru"""
 
-    data = OperationsWithVacancies(keyword, keyword_2, occupation, curr, int(salary_from), int(salary_to))
+    data = SalaryOfVacancies(keyword, keyword_2, occupation, curr, int(salary_from), int(salary_to))
     operation_data = data._avg()
     readable_list_vacations = []
     for post in operation_data:
@@ -91,5 +91,5 @@ if __name__ == "__main__":
     vacations = search(key_word, name, employment, currency, pay_from, pay_to)
     for vacancy in vacations:
         print(vacancy)
-    # print(top_vacations(key_word))
-    # print(get_vacations_with_keyword(key_word))
+    print(top_vacations(key_word))
+    print(get_vacations_with_keyword(key_word))
