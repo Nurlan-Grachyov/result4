@@ -35,8 +35,6 @@ class AbstractDelete(ABC):
 
 class SaveData(SalaryOfVacancies, OperationsWithVacancies, AbstractSave):
     """Класс для работы с добавления информации о вакансиях в JSON-файл"""
-    PATH_TO_PROJECT = Path(__file__).resolve().parent.parent
-    PATH_TO_FILE = PATH_TO_PROJECT / "data" / "hh_vacancies.json"
 
     def __init__(
         self,
@@ -46,7 +44,7 @@ class SaveData(SalaryOfVacancies, OperationsWithVacancies, AbstractSave):
         currency: str,
         pay_from: int,
         pay_to: int,
-        file: str = PATH_TO_FILE,
+        file: str = "C:/Users/Nurlan/IT/Проекты/results4/data/hh_vacancies.json",
     ):  # noqa: E501
         """Метод-конструктор"""
         super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
@@ -79,8 +77,6 @@ class SaveData(SalaryOfVacancies, OperationsWithVacancies, AbstractSave):
 
 class GetData(OperationsWithVacancies, AbstractGet):
     """Класс для получения информации о вакансиях в JSON-файл"""
-    PATH_TO_PROJECT = Path(__file__).resolve().parent.parent
-    PATH_TO_FILE = PATH_TO_PROJECT / "data" / "hh_vacancies.json"
 
     def __init__(
         self,
@@ -90,7 +86,7 @@ class GetData(OperationsWithVacancies, AbstractGet):
         currency: str,
         pay_from: int,
         pay_to: int,
-        file: str = PATH_TO_FILE,
+        file: str = "C:/Users/Nurlan/IT/Проекты/results4/data/hh_vacancies.json",
     ):  # noqa: E501
         """Метод-конструктор"""
         super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
@@ -124,8 +120,6 @@ class GetData(OperationsWithVacancies, AbstractGet):
 
 class DeleteData(OperationsWithVacancies, AbstractDelete):
     """Класс для очистки JSON-файла"""
-    PATH_TO_PROJECT = Path(__file__).resolve().parent.parent
-    PATH_TO_FILE = PATH_TO_PROJECT / "data" / "hh_vacancies.json"
 
     def __init__(
         self,
@@ -135,7 +129,7 @@ class DeleteData(OperationsWithVacancies, AbstractDelete):
         currency: str,
         pay_from: int,
         pay_to: int,
-        file: str = PATH_TO_FILE,
+        file: str = "C:/Users/Nurlan/IT/Проекты/results4/data/hh_vacancies.json",
     ):
         """Метод-конструктор"""
         super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)

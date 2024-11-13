@@ -1,6 +1,15 @@
 from src.DataFile import GetData
-from src.user_interaction import (currency, employment, get_vacations_with_keyword, key_word, name, pay_from, pay_to,
-                                  search, top_vacations)
+from src.user_interaction import (
+    currency,
+    employment,
+    get_vacations_with_keyword,
+    key_word,
+    name,
+    pay_from,
+    pay_to,
+    search,
+    top_vacations,
+)
 
 if __name__ == "__main__":
     vacations = search(key_word, name, employment, currency, pay_from, pay_to)
