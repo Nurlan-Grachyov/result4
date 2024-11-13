@@ -8,7 +8,7 @@ class AbstractOperation(ABC):
     """Абстрактный класс для работы с полученными вакансиями"""
 
     @abstractmethod
-    def _filtered_vacancies(self):
+    def _filtered_vacancies(self) -> None:
         """Метод, который должен быть в дочернем классе"""
         pass
 
@@ -17,7 +17,7 @@ class AbstractSalary(ABC):
     """Абстрактный класс для получения средней зарплаты в полученных вакансиях"""
 
     @abstractmethod
-    def _avg(self):
+    def _avg(self) -> None:
         """Метод, который должен быть в дочернем классе"""
         pass
 
@@ -31,16 +31,16 @@ class OperationsWithVacancies(GetVacancies):
         """Класс-конструктор, который получает атрибуты"""
         super().__init__(keyword)
         self._loading()
-        self.keyword_2 = keyword_2
-        self.employment = employment
-        self.currency = currency
+        self._keyword_2 = keyword_2
+        self._employment = employment
+        self._currency = currency
         if pay_from < 0:
             raise ValueError("Зарплата ОТ не должна быть отрицательной")
-        self.pay_from = pay_from
+        self._pay_from = pay_from
         if pay_to < pay_from:
             raise ValueError("Зарплата ДО не должна быть меньше зарплаты ОТ")
-        self.pay_to = pay_to
-        self.sorted_vacancies: List = []
+        self._pay_to = pay_to
+        self._sorted_vacancies: List = []
 
     def _filtered_vacancies(self) -> list:
         """Метод, фильтрует вакансии по фильтрам"""
@@ -50,20 +50,20 @@ class OperationsWithVacancies(GetVacancies):
                     vacancy.get("salary") is None
                     or vacancy["salary"].get("to") is None
                     or vacancy["salary"].get("from") is None
-                    or vacancy in self.sorted_vacancies
+                    or vacancy in self._sorted_vacancies
                 ):
                     continue
                 elif (
-                    self.keyword_2 in vacancy.get("name")
-                    and self.employment in vacancy["employment"].get("name")
-                    and self.currency in vacancy["salary"].get("currency")
-                    and vacancy["salary"].get("from", 0) >= self.pay_from
-                    and vacancy["salary"].get("to", 0) <= self.pay_to
+                    self._keyword_2 in vacancy.get("name")
+                    and self._employment in vacancy["employment"].get("name")
+                    and self._currency in vacancy["salary"].get("currency")
+                    and vacancy["salary"].get("from", 0) >= self._pay_from
+                    and vacancy["salary"].get("to", 0) <= self._pay_to
                 ):
-                    self.sorted_vacancies.append(vacancy)
+                    self._sorted_vacancies.append(vacancy)
                 else:
                     continue
-            return self.sorted_vacancies
+            return self._sorted_vacancies
 
         except Exception as e:
             print(e)
@@ -77,31 +77,31 @@ class SalaryOfVacancies(OperationsWithVacancies):
     def _avg(self) -> list:
         """Метод, высчитывающий среднюю зарплату для каждой вакансии"""
         self._filtered_vacancies()
-        for vacancy in self.sorted_vacancies:
+        for vacancy in self._sorted_vacancies:
             avg_pay = (vacancy["salary"].get("from") + vacancy["salary"].get("to")) / 2
             vacancy["salary"]["avg"] = avg_pay
-        return self.sorted_vacancies
+        return self._sorted_vacancies
 
     def _comparison_pay(self) -> None | list:
         """Метод, сортирующий вакансии со средними зарплатами в порядке возрастания"""
         self._avg()
-        if not self.sorted_vacancies:
+        if not self._sorted_vacancies:
             return None
-        return sorted(self.sorted_vacancies, key=lambda x: x["salary"]["avg"], reverse=True)
+        return sorted(self._sorted_vacancies, key=lambda x: x["salary"]["avg"], reverse=True)
 
     def _highest_pay(self) -> Any:
         """Метод, возвращающий вакансию с максимальной средней зарплатой"""
         self._avg()
-        if not self.sorted_vacancies:
+        if not self._sorted_vacancies:
             return None
-        return max(self.sorted_vacancies, key=lambda x: x["salary"]["avg"])
+        return max(self._sorted_vacancies, key=lambda x: x["salary"]["avg"])
 
     def _lowest_pay(self) -> Any:
         """Метод, возвращающий вакансию с минимальной средней зарплатой"""
         self._avg()
-        if not self.sorted_vacancies:
+        if not self._sorted_vacancies:
             return None
-        return min(self.sorted_vacancies, key=lambda x: x["salary"]["avg"])
+        return min(self._sorted_vacancies, key=lambda x: x["salary"]["avg"])
 
     def _get_max_avg_salary(self) -> float:
         """Метод возвращает максимальную среднюю зарплату в списке вакансий"""

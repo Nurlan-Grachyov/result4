@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Dict
 
 import requests
 
@@ -19,7 +19,7 @@ class GetVacancies(AbstractGet):
     def __init__(self, keyword: str):
         """Класс-конструктор, который получает ключевое слово для поиска(keyword)"""
         self.__url = "https://api.hh.ru/vacancies"
-        self.__params = {"text": keyword, "per_page": 100}
+        self.__params: Dict[str, str | int] = {"text": keyword, "per_page": 100}
         self._keyword = keyword
         self._vacancies: Any = []
 

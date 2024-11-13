@@ -1,5 +1,6 @@
 import json
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Any
 
 from src.OperationsWithVacancies import OperationsWithVacancies, SalaryOfVacancies
@@ -34,6 +35,8 @@ class AbstractDelete(ABC):
 
 class SaveData(SalaryOfVacancies, OperationsWithVacancies, AbstractSave):
     """Класс для работы с добавления информации о вакансиях в JSON-файл"""
+    PATH_TO_PROJECT = Path(__file__).resolve().parent.parent
+    PATH_TO_FILE = PATH_TO_PROJECT / "data" / "hh_vacancies.json"
 
     def __init__(
         self,
@@ -43,7 +46,7 @@ class SaveData(SalaryOfVacancies, OperationsWithVacancies, AbstractSave):
         currency: str,
         pay_from: int,
         pay_to: int,
-        file: str = "../data/hh_vacancies.json",
+        file: str = PATH_TO_FILE,
     ):  # noqa: E501
         """Метод-конструктор"""
         super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
@@ -65,7 +68,7 @@ class SaveData(SalaryOfVacancies, OperationsWithVacancies, AbstractSave):
 
                     with open(self.__file, "w", encoding="utf-8") as f:
                         json.dump(data_from_json_file, f, ensure_ascii=False)
-                    return self._comparison_pay()
+                    return vacancies
                 else:
                     return []
             except Exception as e:
@@ -76,6 +79,8 @@ class SaveData(SalaryOfVacancies, OperationsWithVacancies, AbstractSave):
 
 class GetData(OperationsWithVacancies, AbstractGet):
     """Класс для получения информации о вакансиях в JSON-файл"""
+    PATH_TO_PROJECT = Path(__file__).resolve().parent.parent
+    PATH_TO_FILE = PATH_TO_PROJECT / "data" / "hh_vacancies.json"
 
     def __init__(
         self,
@@ -85,7 +90,7 @@ class GetData(OperationsWithVacancies, AbstractGet):
         currency: str,
         pay_from: int,
         pay_to: int,
-        file: str = "../data/hh_vacancies.json",
+        file: str = PATH_TO_FILE,
     ):  # noqa: E501
         """Метод-конструктор"""
         super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
@@ -102,11 +107,11 @@ class GetData(OperationsWithVacancies, AbstractGet):
             vacations = []
             for vacancy in data_from_json_file:
                 if (
-                    self.keyword_2 in vacancy.get("name")
-                    and self.employment in vacancy["employment"].get("name")
-                    and self.currency in vacancy["salary"].get("currency")
-                    and vacancy["salary"].get("from", 0) >= self.pay_from
-                    and vacancy["salary"].get("to", 0) <= self.pay_to
+                    self._keyword_2 in vacancy.get("name")
+                    and self._employment in vacancy["employment"].get("name")
+                    and self._currency in vacancy["salary"].get("currency")
+                    and vacancy["salary"].get("from", 0) >= self._pay_from
+                    and vacancy["salary"].get("to", 0) <= self._pay_to
                 ):
                     vacations.append(vacancy)
                 else:
@@ -119,6 +124,8 @@ class GetData(OperationsWithVacancies, AbstractGet):
 
 class DeleteData(OperationsWithVacancies, AbstractDelete):
     """Класс для очистки JSON-файла"""
+    PATH_TO_PROJECT = Path(__file__).resolve().parent.parent
+    PATH_TO_FILE = PATH_TO_PROJECT / "data" / "hh_vacancies.json"
 
     def __init__(
         self,
@@ -128,7 +135,7 @@ class DeleteData(OperationsWithVacancies, AbstractDelete):
         currency: str,
         pay_from: int,
         pay_to: int,
-        file: str = "../data/hh_vacancies.json",
+        file: str = PATH_TO_FILE,
     ):
         """Метод-конструктор"""
         super().__init__(keyword, keyword_2, employment, currency, pay_from, pay_to)
