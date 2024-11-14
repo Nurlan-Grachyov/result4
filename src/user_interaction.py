@@ -21,7 +21,7 @@ def search(keyword: str, keyword_2: str, occupation: str, curr: str, salary_from
     return readable_list_vacations
 
 
-def top_vacations(keyword: str, quantity) -> list:
+def top_vacations(keyword: str, quantity: str) -> list:
     """Функция,
     с помощью которой пользователь может получить топ N вакансий по зарплате(N запрашивать у пользователя)"""
     vacancies = GetVacancies(keyword)._loading()
@@ -86,6 +86,7 @@ if __name__ == "__main__":
         "зарплатА ОТ; \n"
         "зарплата ДО: \n"
     ).split(", ")
+    n = input()
     # vacations = search(key_word, name, employment, currency, pay_from, pay_to)
     # print(vacations)
     # for vacancy in vacations:

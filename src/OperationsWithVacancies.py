@@ -136,7 +136,7 @@ if __name__ == "__main__":
     # print(sorted_vacancies_2.avg())
     salary_vacancies = SalaryOfVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
     # salary_vacancies_2 = SalaryOfVacancies("java", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-    print(salary_vacancies._comparison_pay())
+    print(salary_vacancies._lowest_pay())
     # if salary_vacancies > salary_vacancies_2:
     #     print("Python vacancies have a higher average salary.")
     # elif salary_vacancies < salary_vacancies_2:

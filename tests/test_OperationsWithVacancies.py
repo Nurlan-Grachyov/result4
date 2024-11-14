@@ -15,28 +15,6 @@ def test_operations_with_vacancies(input_test_operations_with_vacancies: List) -
     assert sorted_vacancies._pay_to == 100_000
     assert sorted_vacancies._sorted_vacancies == []
 
-    # assert sorted_vacancies._filtered_vacancies() == input_test_operations_with_vacancies
-
-
-# def test_salary_of_vacancies_avg(return_test_avg: List) -> None:
-#     salary_vacancies = SalaryOfVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-#     assert salary_vacancies._avg() == return_test_avg
-
-
-# def test_salary_of_vacancies_comparison(return_test_comparison: List) -> None:
-#     salary_vacancies = SalaryOfVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-#     assert salary_vacancies._comparison_pay() == return_test_comparison
-
-
-# def test_salary_of_vacancies_highest_pay(return_test_high: List) -> None:
-#     salary_vacancies = SalaryOfVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-#     assert salary_vacancies._highest_pay() == return_test_high
-
-
-# def test_salary_of_vacancies_lowest_pay(return_test_lowest_pay: List) -> None:
-#     salary_vacancies = SalaryOfVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-#     assert salary_vacancies._highest_pay() == return_test_lowest_pay
-
 
 def test_salary_of_vacancies_get_max_avg_salary(return_test_get_max_avg_salary: List) -> None:
     salary_vacancies = SalaryOfVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
