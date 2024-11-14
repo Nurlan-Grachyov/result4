@@ -3,31 +3,38 @@ from unittest.mock import patch, mock_open
 import json
 from src.DataFile import GetData
 
+
 def test_save_data_json_decode_error(save_data_instance):
     """Тест на обработку ошибки декодирования JSON."""
-    m = mock_open(read_data='invalid json')
-    with patch('builtins.open', m):
-        with patch('src.DataFile.json.dump') as mock_dump:
-            save_data_instance._comparison_pay = lambda: [{'vacancy': 'Developer', 'salary': 50000}]
+    m = mock_open(read_data="invalid json")
+    with patch("builtins.open", m):
+        with patch("src.DataFile.json.dump") as mock_dump:
+            save_data_instance._comparison_pay = lambda: [{"vacancy": "Developer", "salary": 50000}]
             result = save_data_instance._save_data()
             mock_dump.assert_called_once()  # Данные должны быть записаны в пустой список
-            assert result == [{'vacancy': 'Developer', 'salary': 50000}]
+            assert result == [{"vacancy": "Developer", "salary": 50000}]
 
 
 class TestGetData(unittest.TestCase):
 
-    @patch('builtins.open', new_callable=mock_open, read_data=json.dumps([
-        {
-            "name": "Разработчик Python",
-            "employment": {"name": "Полная занятость"},
-            "salary": {"currency": "RUB", "from": 80000, "to": 120000}
-        },
-        {
-            "name": "Junior Python Developer",
-            "employment": {"name": "Стажировка"},
-            "salary": {"currency": "RUB", "from": 30000, "to": 50000}
-        }
-    ]))
+    @patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data=json.dumps(
+            [
+                {
+                    "name": "Разработчик Python",
+                    "employment": {"name": "Полная занятость"},
+                    "salary": {"currency": "RUB", "from": 80000, "to": 120000},
+                },
+                {
+                    "name": "Junior Python Developer",
+                    "employment": {"name": "Стажировка"},
+                    "salary": {"currency": "RUB", "from": 30000, "to": 50000},
+                },
+            ]
+        ),
+    )
     def test_get_data_success(self, mock_file):
         # arrange
         keyword = "Python"
@@ -46,12 +53,12 @@ class TestGetData(unittest.TestCase):
             {
                 "name": "Разработчик Python",
                 "employment": {"name": "Полная занятость"},
-                "salary": {"currency": "RUB", "from": 80000, "to": 120000}
+                "salary": {"currency": "RUB", "from": 80000, "to": 120000},
             }
         ]
         self.assertEqual(result, expected_result)
 
-    @patch('builtins.open', new_callable=mock_open, read_data='')
+    @patch("builtins.open", new_callable=mock_open, read_data="")
     def test_get_data_empty_file(self, mock_file):
         # arrange
         keyword = "Python"
