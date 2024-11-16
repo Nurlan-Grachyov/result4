@@ -1,8 +1,10 @@
-from typing import List
+import unittest
+from typing import Any, List
+from unittest.mock import patch
 
 import pytest
 
-from src.user_interaction import search, top_vacations
+from src.user_interaction import get_vacations_with_keyword, search, top_vacations
 
 
 @pytest.mark.parametrize(
@@ -16,10 +18,10 @@ from src.user_interaction import search, top_vacations
             "50_000",
             "100_000",
             [
-                "Имя вакансии - Junior Java разработчик,месторасположение - Москва,"
-                "средняя зарплата - 80000.0,валюта - RUR,url - https://hh.ru/vacancy/109788485",
-                "Имя вакансии - Junior Java Developer,месторасположение - Москва,"
-                "средняя зарплата - 60000.0,валюта - RUR,url - https://hh.ru/vacancy/110429201",
+                "Имя вакансии - Junior Java Developer,месторасположение - Москва,средняя зарплата - 60000.0,"
+                "валюта - RUR,url - https://hh.ru/vacancy/110429201",
+                "Имя вакансии - Junior Java разработчик,месторасположение - Москва,средняя зарплата - 80000.0,"
+                "валюта - RUR,url - https://hh.ru/vacancy/109788485",
             ],
         ),
     ],
@@ -57,3 +59,42 @@ def test_search(
 )
 def test_top_vacancies(keyword: str, quantity: str, expected_output: List) -> None:
     assert top_vacations(keyword, quantity) == expected_output
+
+
+class TestGetVacationsWithKeyword(unittest.TestCase):
+
+    @patch("src.user_interaction.GetVacancies")
+    def test_get_vacations_with_keyword(self, MockGetVacancies: Any) -> Any:
+        mock_vacancies_data = [
+            {
+                "name": "Software Engineer",
+                "area": {"name": "New York"},
+                "salary": {"from": 100000, "to": 120000, "currency": "USD"},
+                "alternate_url": "http://example.com/vacancy1",
+            },
+            {
+                "name": "Data Scientist",
+                "area": {"name": "San Francisco"},
+                "salary": {"from": 110000, "to": 130000, "currency": "USD"},
+                "alternate_url": "http://example.com/vacancy2",
+            },
+            {
+                "name": "Product Manager",
+                "area": {"name": "Los Angeles"},
+                "salary": None,  # Вакансия без зарплаты
+                "alternate_url": "http://example.com/vacancy3",
+            },
+        ]
+
+        mock_instance = MockGetVacancies.return_value
+        mock_instance._loading.return_value = mock_vacancies_data
+
+        result = get_vacations_with_keyword("Engineer")
+
+        self.assertIn("Software Engineer", result)
+        self.assertIn("New York", result)
+        self.assertIn("100000", result)
+        self.assertIn("120000", result)
+        self.assertIn("USD", result)
+
+        self.assertNotIn("Product Manager", result)

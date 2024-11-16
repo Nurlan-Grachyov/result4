@@ -1,5 +1,7 @@
 from typing import Any
 
+from texttable import Texttable  # type: ignore
+
 from src.GetVacancies import GetVacancies
 from src.OperationsWithVacancies import SalaryOfVacancies
 
@@ -55,25 +57,37 @@ def top_vacations(keyword: str, quantity: str) -> list:
     return readable_list_vacations
 
 
-def get_vacations_with_keyword(keyword: str) -> list:
+def get_vacations_with_keyword(keyword: str) -> Any:
     """Функция, с помощью которой пользователь может получить вакансии по ключевому слову"""
     vacancies = GetVacancies(keyword)._loading()
-    readable_list_vacations = []
+    t = Texttable()
     for worker in vacancies:
         if worker.get("salary") is None or worker["salary"].get("to") is None or worker["salary"].get("from") is None:
             continue
         else:
-            readable_list_vacations.append(
-                {
-                    "имя вакансии": worker["name"],
-                    "месторасположение": worker["area"]["name"],
-                    "зарплата ОТ": worker["salary"]["from"],
-                    "зарплата ДО": worker["salary"]["to"],
-                    "валюта": worker["salary"]["currency"],
-                    "url": worker["alternate_url"],
-                }
+            #         readable_list_vacations.append(
+            #             {
+            #                 "имя вакансии": worker["name"],
+            #                 "месторасположение": worker["area"]["name"],
+            #                 "зарплата ОТ": worker["salary"]["from"],
+            #                 "зарплата ДО": worker["salary"]["to"],
+            #                 "валюта": worker["salary"]["currency"],
+            #                 "url": worker["alternate_url"],
+            #             }
+            #         )
+            # return readable_list_vacations
+
+            t.add_row(
+                [
+                    worker["name"],
+                    worker["area"]["name"],
+                    worker["salary"]["from"],
+                    worker["salary"]["to"],
+                    worker["salary"]["currency"],
+                    worker["alternate_url"],
+                ]
             )
-    return readable_list_vacations
+    return t.draw()
 
 
 if __name__ == "__main__":
@@ -86,11 +100,11 @@ if __name__ == "__main__":
         "зарплатА ОТ; \n"
         "зарплата ДО: \n"
     ).split(", ")
-    n = input()
-    # vacations = search(key_word, name, employment, currency, pay_from, pay_to)
-    # print(vacations)
+    # n = input()
+    vacations = search(key_word, name, employment, currency, pay_from, pay_to)
+    print(vacations)
     # for vacancy in vacations:
     #     print(vacancy)
     # n = input("Введите кол-во вакансий с самой высокой зарплатой: ")
     # print(top_vacations(n, key_word))
-    print(get_vacations_with_keyword(key_word))
+    # print(get_vacations_with_keyword(key_word))
