@@ -2,7 +2,7 @@ from typing import List
 
 import pytest
 
-from src.OperationsWithVacancies import OperationsWithVacancies, SalaryOfVacancies
+from src.operations_with_vacancies import OperationsWithVacancies, SalaryOfVacancies
 
 
 def test_operations_with_vacancies(input_test_operations_with_vacancies: List) -> None:

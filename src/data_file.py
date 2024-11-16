@@ -2,7 +2,7 @@ import json
 from abc import ABC, abstractmethod
 from typing import Any
 
-from src.OperationsWithVacancies import OperationsWithVacancies, SalaryOfVacancies
+from src.operations_with_vacancies import OperationsWithVacancies, SalaryOfVacancies
 
 
 class AbstractSave(ABC):

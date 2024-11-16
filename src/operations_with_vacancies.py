@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, List
 
-from src.GetVacancies import GetVacancies
+from src.get_vacancies import GetVacancies
 
 
 class AbstractOperation(ABC):
@@ -129,22 +129,20 @@ class SalaryOfVacancies(OperationsWithVacancies):
 
 
 if __name__ == "__main__":
-    # data = GetVacancies("python")
-    # sorted_vacancies = OperationsWithVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-    # print(sorted_vacancies._filtered_vacancies())
-    # sorted_vacancies_2 = OperationsWithVacancies("java", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-    # print(sorted_vacancies_2.avg())
+    data = GetVacancies("python")
+    sorted_vacancies = OperationsWithVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
+    print(sorted_vacancies._filtered_vacancies())
     salary_vacancies = SalaryOfVacancies("python", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
-    # salary_vacancies_2 = SalaryOfVacancies("java", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
+    salary_vacancies_2 = SalaryOfVacancies("java", "Junior", "Полная занятость", "RUR", 50_000, 100_000)
     print(salary_vacancies._lowest_pay())
-    # if salary_vacancies > salary_vacancies_2:
-    #     print("Python vacancies have a higher average salary.")
-    # elif salary_vacancies < salary_vacancies_2:
-    #     print("Java vacancies have a higher average salary.")
-    # else:
-    #     print("Both have the same average salary.")
-    #
-    # if salary_vacancies != salary_vacancies_2:
-    #     print("Не равно.")
-    # else:
-    #     print("Равно.")
+    if salary_vacancies > salary_vacancies_2:
+        print("Python vacancies have a higher average salary.")
+    elif salary_vacancies < salary_vacancies_2:
+        print("Java vacancies have a higher average salary.")
+    else:
+        print("Both have the same average salary.")
+
+    if salary_vacancies != salary_vacancies_2:
+        print("Не равно.")
+    else:
+        print("Равно.")

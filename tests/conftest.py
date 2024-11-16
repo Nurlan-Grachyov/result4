@@ -2,7 +2,7 @@ from typing import Dict, List
 
 import pytest
 
-from src.DataFile import SaveData
+from src.data_file import SaveData
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
-from src.DataFile import DeleteData, GetData, SaveData
-from src.GetVacancies import GetVacancies
-from src.OperationsWithVacancies import OperationsWithVacancies, SalaryOfVacancies
+from src.data_file import DeleteData, GetData, SaveData
+from src.get_vacancies import GetVacancies
+from src.operations_with_vacancies import OperationsWithVacancies, SalaryOfVacancies
 from src.user_interaction import get_vacations_with_keyword, search, top_vacations
 
 if __name__ == "__main__":
@@ -37,5 +37,3 @@ if __name__ == "__main__":
         print(vacancy)
     print(top_vacations(key_word, n))
     print(get_vacations_with_keyword(key_word))
-
-    # java, Junior, Полная занятость, RUR, 50_000, 100_000

@@ -2,8 +2,8 @@ from typing import Any
 
 from texttable import Texttable  # type: ignore
 
-from src.GetVacancies import GetVacancies
-from src.OperationsWithVacancies import SalaryOfVacancies
+from src.get_vacancies import GetVacancies
+from src.operations_with_vacancies import SalaryOfVacancies
 
 
 def search(keyword: str, keyword_2: str, occupation: str, curr: str, salary_from: str, salary_to: str) -> Any:
@@ -65,18 +65,6 @@ def get_vacations_with_keyword(keyword: str) -> Any:
         if worker.get("salary") is None or worker["salary"].get("to") is None or worker["salary"].get("from") is None:
             continue
         else:
-            #         readable_list_vacations.append(
-            #             {
-            #                 "имя вакансии": worker["name"],
-            #                 "месторасположение": worker["area"]["name"],
-            #                 "зарплата ОТ": worker["salary"]["from"],
-            #                 "зарплата ДО": worker["salary"]["to"],
-            #                 "валюта": worker["salary"]["currency"],
-            #                 "url": worker["alternate_url"],
-            #             }
-            #         )
-            # return readable_list_vacations
-
             t.add_row(
                 [
                     worker["name"],
@@ -100,11 +88,10 @@ if __name__ == "__main__":
         "зарплатА ОТ; \n"
         "зарплата ДО: \n"
     ).split(", ")
-    # n = input()
     vacations = search(key_word, name, employment, currency, pay_from, pay_to)
     print(vacations)
-    # for vacancy in vacations:
-    #     print(vacancy)
-    # n = input("Введите кол-во вакансий с самой высокой зарплатой: ")
-    # print(top_vacations(n, key_word))
-    # print(get_vacations_with_keyword(key_word))
+    for vacancy in vacations:
+        print(vacancy)
+    n = input("Введите кол-во вакансий с самой высокой зарплатой: ")
+    print(top_vacations(n, key_word))
+    print(get_vacations_with_keyword(key_word))
