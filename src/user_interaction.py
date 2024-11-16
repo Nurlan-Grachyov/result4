@@ -88,10 +88,11 @@ if __name__ == "__main__":
         "зарплатА ОТ; \n"
         "зарплата ДО: \n"
     ).split(", ")
-    vacations = search(key_word, name, employment, currency, pay_from, pay_to)
-    print(vacations)
-    for vacancy in vacations:
-        print(vacancy)
+    # vacations = search(key_word, name, employment, currency, pay_from, pay_to)
+    # print(vacations)
+    # for vacancy in vacations:
+    #     print(vacancy)
     n = input("Введите кол-во вакансий с самой высокой зарплатой: ")
-    print(top_vacations(n, key_word))
-    print(get_vacations_with_keyword(key_word))
+    print(top_vacations(key_word, n))
+    # print(get_vacations_with_keyword(key_word))
+# java, junior, Полная занятость, 50000, 100000
