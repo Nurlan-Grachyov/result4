@@ -64,7 +64,7 @@ def test_top_vacancies(keyword: str, quantity: str, expected_output: List) -> No
 class TestGetVacationsWithKeyword(unittest.TestCase):
 
     @patch("src.user_interaction.GetVacancies")
-    def test_get_vacations_with_keyword(self, MockGetVacancies: Any) -> Any:
+    def test_get_vacations_with_keyword(self, mock_get_vacancies: Any) -> Any:
         mock_vacancies_data = [
             {
                 "name": "Software Engineer",
@@ -86,7 +86,7 @@ class TestGetVacationsWithKeyword(unittest.TestCase):
             },
         ]
 
-        mock_instance = MockGetVacancies.return_value
+        mock_instance = mock_get_vacancies.return_value
         mock_instance._loading.return_value = mock_vacancies_data
 
         result = get_vacations_with_keyword("Engineer")
